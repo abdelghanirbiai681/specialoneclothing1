@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elite Men's Fashion - Premium Clothing Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              500: '#121212', // Rich black
+              600: '#0a0a0a',
+            },
+            secondary: {
+              500: '#d4af37', // Gold
+              600: '#c9a227',
+            },
+            accent: {
+              500: '#5a67d8', // New indigo accent color (replaced orange)
+              600: '#4c51bf',
+            },
+            background: {
+              500: '#f5f5f5', // Off-white
+              600: '#e5e5e5',
+            },
+            dark: {
+              500: '#1e1e1e', // Dark gray
+              600: '#151515',
+            }
+          },
+          fontFamily: {
+            sans: ['Montserrat', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            display: ['Bebas Neue', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    
+    .animate-slide-in {
+      animation: slideIn 0.3s ease-out forwards;
+    }
+    
+    .animate-bounce {
+      animation: bounce 0.5s;
+    }
+    
+    .product-card:hover .product-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .product-overlay {
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    
+    .cart-badge {
+      transition: all 0.3s ease;
+    }
+    
+    .cart-badge.active {
+      transform: scale(1.1);
+    }
+    
+    .hero-bg {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+      background-position: center 30%;
+    }
+    
+    .modal-overlay {
+      backdrop-filter: blur(5px);
+    }
+    
+    .search-bar {
+      transition: all 0.3s ease;
+      width: 0;
+      opacity: 0;
+    }
+    
+    .search-bar.open {
+      width: 200px;
+      opacity: 1;
+    }
+    
+    .category-card {
+      transition: all 0.3s ease;
+      perspective: 1000px;
+    }
+    
+    .category-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    
+    .category-card-inner {
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    
+    .category-card:hover .category-card-inner {
+      transform: rotateY(5deg);
+    }
+    
+    .clothes-bg {
+      background-image: url('https://images.unsplash.com/photo-1554412933-514a83d2f3c8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      background-color: rgba(245, 245, 245, 0.9);
+      background-blend-mode: overlay;
+    }
+    
+    /* Smooth scroll with easing */
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 80px;
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+    }
+    
+    /* Custom scrollbar with improved design */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: #f5f5f5;
+      border-radius: 10px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(45deg, #d4af37, #5a67d8);
+      border-radius: 10px;
+      border: 2px solid #f5f5f5;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(45deg, #c9a227, #4c51bf);
+    }
+    
+    /* Dark mode scrollbar */
+    .dark ::-webkit-scrollbar-track {
+      background: #121212;
+    }
+    
+    .dark ::-webkit-scrollbar-thumb {
+      border-color: #121212;
+    }
+    
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(45deg, #d4af37, #5a67d8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    /* Floating cart button */
+    .floating-cart-btn {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 40;
+      transition: all 0.3s ease;
+    }
+    
+    /* Sort dropdown */
+    .sort-dropdown {
+      transition: all 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+    }
+    
+    .sort-dropdown.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    
+    /* Added to cart notification */
+    .added-to-cart-notification {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      transition: all 0.3s ease;
+    }
+    
+    /* Shop mode */
+    .shop-mode {
+      background-image: none;
+      background-color: #f5f5f5;
+    }
+    
+    .dark .shop-mode {
+      background-color: #121212;
+    }
+    
+    /* Enhanced category card styles */
+    .category-title {
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+    }
+    
+    .category-overlay {
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+    
+    @media (max-width: 768px) {
+      .search-bar.open {
+        width: 150px;
+      }
+      
+      .clothes-bg {
+        background-attachment: scroll;
+      }
+      
+      .floating-cart-btn {
+        bottom: 1rem;
+        right: 1rem;
+      }
+      
+      .category-title {
+        font-size: 1.8rem;
+      }
+    }
+    
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 2px;
+    }
+    
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      letter-spacing: 1px;
+    }
+    
+    .price-tag {
+      font-family: 'Bebas Neue', sans-serif;
+    }
+  </style>
+</head>
+<body class="clothes-bg text-gray-900 transition-colors duration-300 dark:bg-gray-900 dark:text-gray-100">
+  <!-- Loading Spinner -->
+  <div id="spinner" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="w-16 h-16 border-4 border-t-4 border-t-accent-500 border-gray-200 rounded-full animate-spin"></div>
+  </div>
+
+  <!-- Header (Will be hidden when in shop mode) -->
+  <header id="main-header" class="sticky top-0 z-40 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md shadow-sm transition-all duration-300">
+    <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+      <!-- Logo -->
+      <a href="#" class="text-2xl font-bold text-primary-500 dark:text-accent-500 flex items-center font-serif">
+        <i class="fas fa-tshirt mr-2 gradient-text"></i>
+        <span class="gradient-text font-display">special one clothing</span>
+      </a>
+      
+      <!-- Navigation -->
+      <nav class="hidden md:flex space-x-8">
+        <a href="#" class="font-medium hover:text-secondary-500 dark:hover:text-accent-500 transition-colors">Home</a>
+        <a href="#shop" class="font-medium hover:text-secondary-500 dark:hover:text-accent-500 transition-colors">Shop</a>
+        <a href="#about" class="font-medium hover:text-secondary-500 dark:hover:text-accent-500 transition-colors">About</a>
+        <a href="#contact" class="font-medium hover:text-secondary-500 dark:hover:text-accent-500 transition-colors">Contact</a>
+      </nav>
+      
+      <!-- Icons -->
+      <div class="flex items-center space-x-4">
+        <!-- Search -->
+        <div class="relative">
+          <input type="text" id="search-input" placeholder="Search..."
+                  class="search-bar absolute right-0 top-1/2 -translate-y-1/2 bg-gray-100 dark:bg-gray-700 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-secondary-500 dark:focus:ring-accent-500">
+          <button id="search-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <i class="fas fa-search text-primary-500 dark:text-accent-500"></i>
+          </button>
+        </div>
+        
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+          <i id="theme-icon" class="fas fa-moon text-primary-500 dark:text-accent-500"></i>
+        </button>
+        
+        <!-- Cart -->
+        <button id="cart-button" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors relative">
+          <i class="fas fa-shopping-cart text-primary-500 dark:text-accent-500"></i>
+          <span id="cart-count" class="cart-badge absolute -top-2 -right-2 bg-secondary-500 dark:bg-accent-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </button>
+        
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+          <i class="fas fa-bars text-primary-500 dark:text-accent-500"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden bg-white dark:bg-gray-800 shadow-lg">
+      <div class="container mx-auto px-4 py-2 flex flex-col space-y-2">
+        <a href="#" class="py-2 font-medium hover:text-secondary-500 dark:hover:text-accent-500 transition-colors">Home</a>
+        <a href="#shop" class="py-2 font-medium hover:text-secondary-500 dark:hover:text-accent-500 transition-colors">Shop</a>
+        <a href="#about" class="py-2 font-medium hover:text-secondary-500 dark:hover:text-accent-500 transition-colors">About</a>
+        <a href="#contact" class="py-2 font-medium hover:text-secondary-500 dark:hover:text-accent-500 transition-colors">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-bg bg-cover bg-center h-96 md:h-screen flex items-center justify-center text-center">
+    <div class="container mx-auto px-4">
+      <h1 class="text-5xl md:text-7xl font-bold text-white mb-6 animate-fade-in hero-title">ELEVATE YOUR STYLE</h1>
+      <p class="text-xl md:text-2xl text-white mb-8 max-w-2xl mx-auto animate-fade-in font-serif" style="animation-delay: 0.2s;">Premium men's fashion for the modern gentleman</p>
+      <button id="shop-now-btn" class="bg-gradient-to-r from-secondary-500 to-accent-500 hover:from-secondary-600 hover:to-accent-600 text-white font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg hover:shadow-xl animate-fade-in" style="animation-delay: 0.4s;">
+        Shop Now
+      </button>
+    </div>
+  </section>
+
+  <!-- Category Cards -->
+  <section id="shop" class="container mx-auto px-4 py-12 bg-white dark:bg-gray-800 bg-opacity-90 rounded-lg my-8">
+    <h2 class="text-4xl font-bold text-center mb-12 gradient-text section-title">SHOP BY CATEGORY</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Men's Category -->
+      <div class="category-card rounded-xl shadow-lg overflow-hidden cursor-pointer h-full">
+        <div class="category-card-inner relative h-80 overflow-hidden" onclick="showProducts('men')">
+          <img src="https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80"
+                alt="Men's Collection" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+          <div class="category-overlay absolute inset-0 flex items-end p-6">
+            <h3 class="category-title text-3xl font-bold text-white">Men's Apparel</h3>
+          </div>
+          <div class="absolute top-4 right-4 bg-accent-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-md">
+            New Arrivals
+          </div>
+        </div>
+      </div>
+      
+      <!-- Shoes Collection -->
+      <div class="category-card rounded-xl shadow-lg overflow-hidden cursor-pointer h-full">
+        <div class="category-card-inner relative h-80 overflow-hidden" onclick="showProducts('shoes')">
+          <img src="https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80"
+                alt="Shoes Collection" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+          <div class="category-overlay absolute inset-0 flex items-end p-6">
+            <h3 class="category-title text-3xl font-bold text-white">Shoes</h3>
+          </div>
+          <div class="absolute top-4 right-4 bg-secondary-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-md">
+            Best Sellers
+          </div>
+        </div>
+      </div>
+      
+      <!-- Accessories Category -->
+      <div class="category-card rounded-xl shadow-lg overflow-hidden cursor-pointer h-full">
+        <div class="category-card-inner relative h-80 overflow-hidden" onclick="showProducts('accessories')">
+          <img src="https://images.unsplash.com/photo-1512499617640-c2f999b03121?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80"
+                alt="Accessories" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500">
+          <div class="category-overlay absolute inset-0 flex items-end p-6">
+            <h3 class="category-title text-3xl font-bold text-white">Accessories</h3>
+          </div>
+          <div class="absolute top-4 right-4 bg-primary-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-md">
+            Limited Edition
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Section (Initially Hidden) -->
+  <section id="products-section" class="container mx-auto px-4 py-12 bg-white dark:bg-gray-800 bg-opacity-90 rounded-lg my-8 hidden">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+      <h2 id="products-title" class="text-4xl font-bold gradient-text section-title"></h2>
+      <div class="flex items-center gap-4">
+        <!-- Sort Button -->
+        <div class="relative">
+          <button id="sort-button" class="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+            <i class="fas fa-sort-amount-down"></i>
+            <span>Sort</span>
+          </button>
+          <div id="sort-dropdown" class="sort-dropdown absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-md shadow-lg z-10">
+            <div class="py-1">
+              <button class="sort-option block w-full text-left px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" data-sort="price-low">Price: Low to High</button>
+              <button class="sort-option block w-full text-left px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" data-sort="price-high">Price: High to Low</button>
+              <button class="sort-option block w-full text-left px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" data-sort="name-asc">Name: A-Z</button>
+              <button class="sort-option block w-full text-left px-4 py-2 text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600" data-sort="name-desc">Name: Z-A</button>
+            </div>
+          </div>
+        </div>
+        <button id="back-to-categories" class="text-secondary-500 dark:text-accent-500 hover:text-secondary-600 dark:hover:text-accent-600 hover:underline flex items-center">
+          <i class="fas fa-arrow-left mr-2"></i> Back to Categories
+        </button>
+      </div>
+    </div>
+    <div id="products-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Products will be inserted here by JavaScript -->
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="bg-white dark:bg-gray-800 bg-opacity-90 py-16 my-8 rounded-lg">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-12 gradient-text section-title">ABOUT special one clothing</h2>
+      <div class="flex flex-col md:flex-row items-center gap-12">
+        <div class="md:w-1/2">
+          <img src="https://images.unsplash.com/photo-1554412933-514a83d2f3c8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1472&q=80"
+                alt="Our Store" class="rounded-lg shadow-lg w-full h-auto object-cover">
+        </div>
+        <div class="md:w-1/2">
+          <p class="text-lg mb-6">
+Special One Clothing est une marque de vêtements née en 2025, fruit de la créativité d’un groupe d’étudiants inspirés par une demande de leur professeure de digtal skills, Madame <b>Rim Marah</b>. 
+Ce projet, lancé comme un simple exercice en classe, s’est rapidement transformé en une véritable aventure entrepreneuriale.
+          </p>
+          <p class="text-lg mb-6">
+           ortée par une vision claire : allier style, originalité et excellence — la marque incarne l’audace d’une jeunesse qui ose créer,
+            innover et se démarquer.
+          </p>
+          <p class="text-lg">
+            Special One Clothing ne se contente pas de suivre les tendances, elle les lance. Car ici, chaque pièce raconte une histoire : 
+            celle de ceux qui veulent être uniques… les numéros un.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="bg-white dark:bg-gray-800 bg-opacity-90 py-16 my-8 rounded-lg">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-12 gradient-text section-title">CONTACT US</h2>
+      <div class="flex flex-col md:flex-row gap-12">
+        <div class="md:w-1/2">
+          <h3 class="text-xl font-bold mb-4">Get in Touch</h3>
+          <div class="space-y-4">
+            <div class="flex items-start">
+              <i class="fas fa-map-marker-alt text-secondary-500 dark:text-accent-500 mt-1 mr-4"></i>
+              <div>
+                <h4 class="font-medium">Address</h4>
+                <p class="text-gray-600 dark:text-gray-300">Lhey lidari ,Aghbala,Béni Mellal, Morocco</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <i class="fas fa-phone text-secondary-500 dark:text-accent-500 mt-1 mr-4"></i>
+              <div>
+                <h4 class="font-medium">Phone</h4>
+                <p class="text-gray-600 dark:text-gray-300">+212 6 23 30 34 31</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <i class="fas fa-envelope text-secondary-500 dark:text-accent-500 mt-1 mr-4"></i>
+              <div>
+                <h4 class="font-medium">Email</h4>
+                <p class="text-gray-600 dark:text-gray-300">specialoneclothing1@gmail.com</p>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <i class="fas fa-clock text-secondary-500 dark:text-accent-500 mt-1 mr-4"></i>
+              <div>
+                <h4 class="font-medium">Hours</h4>
+                <p class="text-gray-600 dark:text-gray-300">Monday - Friday: 9AM - 9PM</p>
+                <p class="text-gray-600 dark:text-gray-300">Saturday - Sunday: 10AM - 8PM</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="md:w-1/2">
+          <h3 class="text-xl font-bold mb-4">Send Us a Message</h3>
+          <form class="space-y-4">
+            <div>
+              <label for="name" class="block mb-1">Name</label>
+              <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-500 dark:focus:ring-accent-500 bg-white dark:bg-gray-700">
+            </div>
+            <div>
+              <label for="email" class="block mb-1">Email</label>
+              <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-500 dark:focus:ring-accent-500 bg-white dark:bg-gray-700">
+            </div>
+            <div>
+              <label for="message" class="block mb-1">Message</label>
+              <textarea id="message" rows="4" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-secondary-500 dark:focus:ring-accent-500 bg-white dark:bg-gray-700"></textarea>
+            </div>
+            <button type="submit" class="bg-gradient-to-r from-secondary-500 to-accent-500 hover:from-secondary-600 hover:to-accent-600 text-white font-medium py-2 px-6 rounded-lg transition-colors shadow-md">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section class="bg-gradient-to-r from-primary-500 to-dark-500 py-12 text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-4 font-serif">Stay Updated</h2>
+      <p class="mb-6 max-w-2xl mx-auto">Subscribe to our newsletter for the latest trends and exclusive offers</p>
+      <div class="flex max-w-md mx-auto">
+        <input type="email" placeholder="Your email address" class="flex-grow px-4 py-2 rounded-l-full focus:outline-none text-gray-900">
+        <button class="bg-accent-500 hover:bg-accent-600 text-primary-500 px-6 py-2 rounded-r-full transition-colors font-bold">
+          Subscribe
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-primary-500 dark:bg-gray-900 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4 text-accent-500 font-serif"> Special one Clothing </h3>
+          <p class="text-gray-300">Special One Clothing — là où le style commence avec toi.</p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Shop</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Men's Apparel</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Shoes</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Accessories</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Help</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Customer Service</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Track Order</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Returns & Exchanges</a></li>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Connect</h4>
+          <div class="flex space-x-4">
+            <a href="https://web.facebook.com/?_rdc=1&_rdr#" class="text-gray-300 hover:text-white transition-colors"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-gray-300 hover:text-white transition-colors"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-primary-600 dark:border-gray-700 mt-8 pt-8 text-center text-gray-300">
+        <p>&copy; 2025 specailoneclothing.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Product Modal -->
+  <div id="product-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden modal-overlay">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+      <div class="p-6">
+        <div class="flex justify-between items-start mb-6">
+          <h3 id="modal-title" class="text-2xl font-bold font-serif"></h3>
+          <button id="modal-close" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        
+        <div class="flex flex-col md:flex-row gap-8">
+          <div class="md:w-1/2">
+            <img id="modal-image" src="" alt="" class="w-full h-auto rounded-lg">
+          </div>
+          
+          <div class="md:w-1/2">
+            <p id="modal-description" class="text-gray-600 dark:text-gray-300 mb-6"></p>
+            <div class="flex items-center mb-6">
+              <span id="modal-price" class="text-2xl font-bold text-secondary-500 dark:text-accent-500 price-tag"></span>
+              <span class="ml-2 text-sm text-gray-500">(Inclusive of all taxes)</span>
+            </div>
+            
+            <div class="mb-6">
+              <label for="size-select" class="block mb-2 font-medium">Size</label>
+              <select id="size-select" class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700">
+                <option value="S">Small (S)</option>
+                <option value="M" selected>Medium (M)</option>
+                <option value="L">Large (L)</option>
+                <option value="XL">Extra Large (XL)</option>
+              </select>
+            </div>
+            
+            <div class="mb-6">
+              <label for="color-select" class="block mb-2 font-medium">Color</label>
+              <div class="flex space-x-2">
+                <button class="w-8 h-8 rounded-full bg-red-500 border-2 border-transparent hover:border-gray-300 dark:hover:border-gray-500"></button>
+                <button class="w-8 h-8 rounded-full bg-blue-500 border-2 border-transparent hover:border-gray-300 dark:hover:border-gray-500"></button>
+                <button class="w-8 h-8 rounded-full bg-black border-2 border-transparent hover:border-gray-300 dark:hover:border-gray-500"></button>
+                <button class="w-8 h-8 rounded-full bg-white border-2 border-gray-300 hover:border-gray-500"></button>
+              </div>
+            </div>
+            
+            <div class="flex space-x-4">
+              <button id="add-to-cart" class="flex-1 bg-secondary-500 dark:bg-accent-500 hover:bg-secondary-600 dark:hover:bg-accent-600 text-white py-3 px-6 rounded-full transition-colors shadow-md">
+                Add to Cart
+              </button>
+              <button id="buy-now" class="flex-1 bg-primary-500 hover:bg-primary-600 text-white py-3 px-6 rounded-full transition-colors shadow-md">
+                Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cart Sidebar -->
+  <div id="cart-sidebar" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white dark:bg-gray-800 shadow-xl z-50 transform translate-x-full transition-transform duration-300 overflow-y-auto">
+    <div class="p-6">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-xl font-bold font-serif">Your Cart</h3>
+        <button id="cart-close" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div id="cart-items" class="space-y-4">
+        <!-- Cart items will be inserted here by JavaScript -->
+      </div>
+      
+      <div class="border-t border-gray-200 dark:border-gray-700 mt-6 pt-6">
+        <div class="flex justify-between mb-2">
+          <span>Subtotal</span>
+          <span id="cart-subtotal">0.00 MAD</span>
+        </div>
+        <div class="flex justify-between mb-4">
+          <span>Shipping</span>
+          <span>Free</span>
+        </div>
+        <div class="flex justify-between font-bold text-lg">
+          <span>Total</span>
+          <span id="cart-total">0.00 MAD</span>
+        </div>
+        
+        <button id="checkout-btn" class="w-full bg-gradient-to-r from-secondary-500 to-accent-500 hover:from-secondary-600 hover:to-accent-600 text-white py-3 px-6 rounded-full mt-6 transition-colors shadow-md">
+          Proceed to Checkout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Cart Button (Hidden by default) -->
+  <button id="floating-cart-btn" class="floating-cart-btn hidden bg-secondary-500 dark:bg-accent-500 text-white p-4 rounded-full shadow-lg hover:shadow-xl hover:scale-110 transition-all">
+    <i class="fas fa-shopping-cart"></i>
+    <span id="floating-cart-count" class="absolute -top-2 -right-2 bg-white dark:bg-gray-900 text-secondary-500 dark:text-accent-500 text-xs rounded-full w-6 h-6 flex items-center justify-center">0</span>
+  </button>
+
+  <!-- Added to Cart Notification (Hidden by default) -->
+  <div id="added-to-cart-notification" class="added-to-cart-notification hidden bg-secondary-500 dark:bg-accent-500 text-white px-6 py-3 rounded-full shadow-lg">
+    <i class="fas fa-check-circle mr-2"></i>
+    <span id="notification-message">Item added to cart</span>
+  </div>
+
+  <script>
+    // Convert prices from USD to MAD (1 USD ≈ 10 MAD)
+    function convertToMAD(usdPrice) {
+      const exchangeRate = 10;
+      const madPrice = parseFloat(usdPrice.replace('$', '')) * exchangeRate;
+      return madPrice.toFixed(2) + ' MAD';
+    }
+
+    // Product Data (Expanded with more men's products)
+    const products = {
+      men: [
+        {
+          id: 'm1',
+          title: 'Premium Slim Fit Suit',
+          description: 'Modern slim-fit suit with premium wool fabric. Perfect for business meetings or formal occasions. Features a tailored fit, notched lapels, and functional buttons.',
+          price: '$299.99',
+          image: 'https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 'm2',
+          title: 'Classic Denim Jacket',
+          description: 'Vintage-inspired denim jacket with a relaxed fit. Features multiple pockets, distressed detailing, and a timeless design that pairs well with any outfit.',
+          price: '$89.99',
+          image: 'https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 'm3',
+          title: 'Cotton Polo Shirt',
+          description: 'Breathable cotton polo shirt with a comfortable fit. Features a ribbed collar, three-button placket, and a straight hem for a clean look.',
+          price: '$49.99',
+          image: 'https://images.unsplash.com/photo-1527719327859-c6ce80353573?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 'm4',
+          title: 'Leather Sneakers',
+          description: 'Premium leather sneakers with cushioned soles for all-day comfort. Features a minimalist design with contrast stitching and a padded collar.',
+          price: '$129.99',
+          image: 'https://images.unsplash.com/photo-1600269452121-1f5d141f554f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 'm5',
+          title: 'Wool Overcoat',
+          description: 'Warm wool overcoat with a tailored fit and notched lapels. Features a hidden button closure, welt pockets, and a back vent for ease of movement.',
+          price: '$229.99',
+          image: 'https://images.unsplash.com/photo-1539533018447-63fcce2678e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80'
+        },
+        {
+          id: 'm6',
+          title: 'Slim Fit Chino Pants',
+          description: 'Versatile chino pants in a slim fit with stretch fabric for comfort. Features a flat front, side pockets, and a button-through back pocket.',
+          price: '$69.99',
+          image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=736&q=80'
+        },
+        {
+          id: 'm7',
+          title: 'Cashmere Sweater',
+          description: 'Luxurious cashmere sweater with a crew neckline. Features a relaxed fit, ribbed cuffs and hem, and a soft hand feel for ultimate comfort.',
+          price: '$159.99',
+          image: 'https://images.unsplash.com/photo-1525507119-7a1b4d8e1b0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80'
+        },
+        {
+          id: 'm8',
+          title: 'Leather Dress Shoes',
+          description: 'Classic leather dress shoes with a polished finish. Features a cap toe design, leather lining, and a cushioned insole for all-day comfort.',
+          price: '$179.99',
+          image: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae52?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 'm9',
+          title: 'Tailored Dress Shirt',
+          description: 'Premium cotton dress shirt with a tailored fit. Features a spread collar, French cuffs, and a button-down collar for a polished look.',
+          price: '$79.99',
+          image: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=772&q=80'
+        },
+        {
+          id: 'm10',
+          title: 'Bomber Jacket',
+          description: 'Stylish bomber jacket with a ribbed collar and cuffs. Features a lightweight quilted lining, front zipper closure, and multiple pockets.',
+          price: '$119.99',
+          image: 'https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80'
+        },
+        {
+          id: 'm11',
+          title: 'Wool Blazer',
+          description: 'Versatile wool blazer with a modern slim fit. Features a notched lapel, flap pockets, and a single-button closure for a sophisticated look.',
+          price: '$199.99',
+          image: 'https://images.unsplash.com/photo-1591046673717-8d1ff8731b3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80'
+        },
+        {
+          id: 'm12',
+          title: 'Linen Shirt',
+          description: 'Breathable linen shirt with a relaxed fit. Features a button-down collar, chest pocket, and a curved hem for a casual yet refined look.',
+          price: '$59.99',
+          image: 'https://images.unsplash.com/photo-1527719327859-c6ce80353573?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        }
+      ],
+      shoes: [
+        {
+          id: 's1',
+          title: 'Classic White Sneakers',
+          description: 'Timeless white sneakers with premium leather construction and cushioned soles for all-day comfort. Features a vulcanized rubber sole and a padded collar.',
+          price: '$99.99',
+          image: 'https://images.unsplash.com/photo-1600269452121-1f5d141f554f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 's2',
+          title: 'Leather Loafers',
+          description: 'Sophisticated leather loafers with a sleek design. Features a moc toe, leather lining, and a cushioned insole for all-day comfort.',
+          price: '$149.99',
+          image: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80'
+        },
+        {
+          id: 's3',
+          title: 'Running Shoes',
+          description: 'High-performance running shoes with responsive cushioning. Features a breathable mesh upper, padded collar, and a durable rubber outsole.',
+          price: '$129.99',
+          image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
+        },
+        {
+          id: 's4',
+          title: 'Casual Canvas Shoes',
+          description: 'Lightweight canvas shoes with rubber soles. Features a vulcanized construction, padded insole, and a classic low-top design.',
+          price: '$59.99',
+          image: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae52?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 's5',
+          title: 'Hiking Boots',
+          description: 'Durable hiking boots with waterproof construction. Features a Vibram outsole, ankle support, and a breathable membrane lining.',
+          price: '$159.99',
+          image: 'https://images.unsplash.com/photo-1545289414-1c3cb1c06238?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80'
+        },
+        {
+          id: 's6',
+          title: 'Slip-On Sneakers',
+          description: 'Comfortable slip-on sneakers with memory foam insoles. Features an elastic gore panel, breathable upper, and a flexible rubber sole.',
+          price: '$79.99',
+          image: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae52?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 's7',
+          title: 'Dress Oxfords',
+          description: 'Elegant dress oxfords with premium leather construction. Features a cap toe design, leather lining, and a cushioned footbed.',
+          price: '$189.99',
+          image: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae52?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 's8',
+          title: 'Athletic Slides',
+          description: 'Comfortable athletic slides with contoured footbeds. Features a quick-drying synthetic upper and a textured footbed for traction.',
+          price: '$49.99',
+          image: 'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae52?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        }
+      ],
+      accessories: [
+        {
+          id: 'a1',
+          title: 'Leather Wallet',
+          description: 'Slim leather wallet with multiple card slots and cash compartment. Features RFID blocking technology to protect your cards.',
+          price: '$59.99',
+          image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 'a2',
+          title: 'Designer Sunglasses',
+          description: 'UV-protective sunglasses with polarized lenses. Features a lightweight frame, adjustable nose pads, and scratch-resistant lenses.',
+          price: '$99.99',
+          image: 'https://images.unsplash.com/photo-1494526585095-c41746248156?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 'a3',
+          title: 'Silk Pocket Square',
+          description: 'Luxurious silk pocket square with elegant patterns. Features hand-rolled edges and can be folded in multiple ways for different looks.',
+          price: '$29.99',
+          image: 'https://images.unsplash.com/photo-1539109132441-3ca1c0c6f3a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 'a4',
+          title: 'Stainless Steel Watch',
+          description: 'Elegant stainless steel watch with quartz movement. Features a date window, luminous hands, and a scratch-resistant sapphire crystal.',
+          price: '$159.99',
+          image: 'https://images.unsplash.com/photo-1512499617640-c2f999b03121?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 'a5',
+          title: 'Leather Belt',
+          description: 'Genuine leather belt with stainless steel buckle. Features a brushed finish, double stitching, and a classic width.',
+          price: '$49.99',
+          image: 'https://images.unsplash.com/photo-1539533018447-63fcce2678e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80'
+        },
+        {
+          id: 'a6',
+          title: 'Cashmere Scarf',
+          description: 'Soft cashmere scarf with a subtle pattern. Features a lightweight weave that provides warmth without bulk.',
+          price: '$79.99',
+          image: 'https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=880&q=80'
+        },
+        {
+          id: 'a7',
+          title: 'Leather Briefcase',
+          description: 'Professional leather briefcase with multiple compartments. Features a padded laptop sleeve, organizer pockets, and a detachable shoulder strap.',
+          price: '$199.99',
+          image: 'https://images.unsplash.com/photo-1525507119-7a1b4d8e1b0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80'
+        },
+        {
+          id: 'a8',
+          title: 'Wool Fedora Hat',
+          description: 'Stylish wool fedora hat with a classic shape. Features a grosgrain ribbon band and a pinched crown for a sophisticated look.',
+          price: '$69.99',
+          image: 'https://images.unsplash.com/photo-1525507119-7a1b4d8e1b0f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80'
+        }
+      ]
+    };
+
+    // DOM Elements
+    const spinner = document.getElementById('spinner');
+    const productModal = document.getElementById('product-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const modalPrice = document.getElementById('modal-price');
+    const modalImage = document.getElementById('modal-image');
+        const modalClose = document.getElementById('modal-close');
+    const addToCartBtn = document.getElementById('add-to-cart');
+    const buyNowBtn = document.getElementById('buy-now');
+    const sizeSelect = document.getElementById('size-select');
+    const colorButtons = document.querySelectorAll('.color-select button');
+    const cartSidebar = document.getElementById('cart-sidebar');
+    const cartItemsContainer = document.getElementById('cart-items');
+    const cartSubtotal = document.getElementById('cart-subtotal');
+    const cartTotal = document.getElementById('cart-total');
+    const cartClose = document.getElementById('cart-close');
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const cartButton = document.getElementById('cart-button');
+    const cartCount = document.getElementById('cart-count');
+    const floatingCartBtn = document.getElementById('floating-cart-btn');
+    const floatingCartCount = document.getElementById('floating-cart-count');
+    const addedToCartNotification = document.getElementById('added-to-cart-notification');
+    const notificationMessage = document.getElementById('notification-message');
+    const productsSection = document.getElementById('products-section');
+    const productsContainer = document.getElementById('products-container');
+    const productsTitle = document.getElementById('products-title');
+    const backToCategories = document.getElementById('back-to-categories');
+    const sortButton = document.getElementById('sort-button');
+    const sortDropdown = document.getElementById('sort-dropdown');
+    const sortOptions = document.querySelectorAll('.sort-option');
+    const searchToggle = document.getElementById('search-toggle');
+    const searchInput = document.getElementById('search-input');
+    const shopNowBtn = document.getElementById('shop-now-btn');
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mainHeader = document.getElementById('main-header');
+
+    // State
+    let currentProduct = null;
+    let currentCategory = null;
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let selectedColor = 'black';
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      updateCartCount();
+      setupEventListeners();
+      
+      // Check for dark mode preference
+      if (localStorage.getItem('darkMode') === 'true' || 
+          (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+        themeIcon.classList.replace('fa-moon', 'fa-sun');
+      }
+    });
+
+    // Event Listeners
+    function setupEventListeners() {
+      // Modal
+      modalClose.addEventListener('click', closeModal);
+      
+      // Cart
+      addToCartBtn.addEventListener('click', addToCart);
+      buyNowBtn.addEventListener('click', buyNow);
+      cartButton.addEventListener('click', toggleCart);
+      cartClose.addEventListener('click', toggleCart);
+      floatingCartBtn.addEventListener('click', toggleCart);
+      checkoutBtn.addEventListener('click', checkout);
+      
+      // Color selection
+      colorButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          colorButtons.forEach(btn => btn.classList.remove('border-gray-500', 'border-gray-300'));
+          button.classList.add('border-gray-500', 'dark:border-gray-300');
+          selectedColor = getColorName(button.style.backgroundColor);
+        });
+      });
+      
+      // Navigation
+      backToCategories.addEventListener('click', () => {
+        productsSection.classList.add('hidden');
+        document.querySelector('#shop').scrollIntoView({ behavior: 'smooth' });
+      });
+      
+      // Sorting
+      sortButton.addEventListener('click', toggleSortDropdown);
+      sortOptions.forEach(option => {
+        option.addEventListener('click', () => sortProducts(option.dataset.sort));
+      });
+      
+      // Search
+      searchToggle.addEventListener('click', toggleSearch);
+      searchInput.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') {
+          searchProducts(e.target.value);
+        }
+      });
+      
+      // Shop now button
+      shopNowBtn.addEventListener('click', () => {
+        document.querySelector('#shop').scrollIntoView({ behavior: 'smooth' });
+      });
+      
+      // Theme toggle
+      themeToggle.addEventListener('click', toggleTheme);
+      
+      // Mobile menu
+      mobileMenuButton.addEventListener('click', toggleMobileMenu);
+      
+      // Close dropdowns when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!sortButton.contains(e.target) && !sortDropdown.contains(e.target)) {
+          sortDropdown.classList.remove('open');
+        }
+      });
+    }
+
+    // Product Functions
+    function showProducts(category) {
+      currentCategory = category;
+      productsSection.classList.remove('hidden');
+      
+      // Set the title based on category
+      let title = '';
+      switch(category) {
+        case 'men':
+          title = "MEN'S APPAREL";
+          break;
+        case 'shoes':
+          title = "FOOTWEAR";
+          break;
+        case 'accessories':
+          title = "ACCESSORIES";
+          break;
+      }
+      productsTitle.textContent = title;
+      
+      // Clear previous products
+      productsContainer.innerHTML = '';
+      
+      // Add new products
+      products[category].forEach(product => {
+        const productElement = createProductCard(product);
+        productsContainer.appendChild(productElement);
+      });
+      
+      // Scroll to products section
+      productsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function createProductCard(product) {
+      const card = document.createElement('div');
+      card.className = 'bg-white dark:bg-gray-700 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-105';
+      card.innerHTML = `
+        <div class="relative h-64 overflow-hidden">
+          <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover">
+          <div class="product-overlay absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <button class="view-details-btn bg-secondary-500 dark:bg-accent-500 hover:bg-secondary-600 dark:hover:bg-accent-600 text-white py-2 px-6 rounded-full transition-colors">
+              View Details
+            </button>
+          </div>
+        </div>
+        <div class="p-4">
+          <h3 class="font-bold text-lg mb-1">${product.title}</h3>
+          <p class="text-gray-600 dark:text-gray-300 text-sm mb-2 line-clamp-2">${product.description}</p>
+          <div class="flex justify-between items-center">
+            <span class="text-secondary-500 dark:text-accent-500 font-bold price-tag">${convertToMAD(product.price)}</span>
+            <button class="add-to-cart-btn p-2 rounded-full bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-500 transition-colors">
+              <i class="fas fa-shopping-cart text-primary-500 dark:text-accent-500"></i>
+            </button>
+          </div>
+        </div>
+      `;
+      
+      // Add event listeners
+      const viewDetailsBtn = card.querySelector('.view-details-btn');
+      const addToCartBtn = card.querySelector('.add-to-cart-btn');
+      
+      viewDetailsBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        showProductDetails(product);
+      });
+      
+      addToCartBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        addProductToCart(product);
+      });
+      
+      card.addEventListener('click', () => {
+        showProductDetails(product);
+      });
+      
+      return card;
+    }
+
+    function showProductDetails(product) {
+      currentProduct = product;
+      modalTitle.textContent = product.title;
+      modalDescription.textContent = product.description;
+      modalPrice.textContent = convertToMAD(product.price);
+      modalImage.src = product.image;
+      modalImage.alt = product.title;
+      productModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      productModal.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Cart Functions
+    function addToCart() {
+      if (!currentProduct) return;
+      
+      const productToAdd = {
+        ...currentProduct,
+        size: sizeSelect.value,
+        color: selectedColor,
+        quantity: 1
+      };
+      
+      addProductToCart(productToAdd);
+      closeModal();
+    }
+
+    function buyNow() {
+      addToCart();
+      toggleCart();
+    }
+
+    function addProductToCart(product) {
+      // Check if product already exists in cart
+      const existingItemIndex = cart.findIndex(item => 
+        item.id === product.id && 
+        item.size === product.size && 
+        item.color === product.color
+      );
+      
+      if (existingItemIndex >= 0) {
+        // Increase quantity
+        cart[existingItemIndex].quantity += 1;
+      } else {
+        // Add new item
+        cart.push(product);
+      }
+      
+      // Update localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+      
+      // Update UI
+      updateCartCount();
+      showAddedToCartNotification(product.title);
+      updateCartItems();
+    }
+
+    function updateCartCount() {
+      const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+      cartCount.textContent = totalItems;
+      floatingCartCount.textContent = totalItems;
+      
+      // Show/hide floating cart button
+      if (totalItems > 0) {
+        floatingCartBtn.classList.remove('hidden');
+      } else {
+        floatingCartBtn.classList.add('hidden');
+      }
+    }
+
+    function toggleCart() {
+      if (cartSidebar.classList.contains('translate-x-full')) {
+        cartSidebar.classList.remove('translate-x-full');
+        document.body.style.overflow = 'hidden';
+        updateCartItems();
+      } else {
+        cartSidebar.classList.add('translate-x-full');
+        document.body.style.overflow = 'auto';
+      }
+    }
+
+    function updateCartItems() {
+      cartItemsContainer.innerHTML = '';
+      
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p class="text-center py-8 text-gray-500">Your cart is empty</p>';
+        cartSubtotal.textContent = '0.00 MAD';
+        cartTotal.textContent = '0.00 MAD';
+        return;
+      }
+      
+      let subtotal = 0;
+      
+      cart.forEach((item, index) => {
+        const price = parseFloat(item.price.replace('$', '')) * 10; // Convert to MAD
+        subtotal += price * item.quantity;
+        
+        const cartItem = document.createElement('div');
+        cartItem.className = 'flex gap-4 border-b border-gray-200 dark:border-gray-700 pb-4';
+        cartItem.innerHTML = `
+          <div class="w-20 h-20 bg-gray-100 dark:bg-gray-600 rounded-lg overflow-hidden">
+            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover">
+          </div>
+          <div class="flex-1">
+            <h4 class="font-medium">${item.title}</h4>
+            <p class="text-sm text-gray-500 dark:text-gray-400">${item.size} | ${item.color}</p>
+            <div class="flex justify-between items-center mt-2">
+              <div class="flex items-center border border-gray-300 dark:border-gray-600 rounded-lg">
+                <button class="decrease-quantity px-2 py-1 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700" data-index="${index}">-</button>
+                <span class="quantity px-2">${item.quantity}</span>
+                <button class="increase-quantity px-2 py-1 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700" data-index="${index}">+</button>
+              </div>
+              <span class="price font-medium">${convertToMAD(item.price)}</span>
+            </div>
+          </div>
+          <button class="remove-item text-gray-400 hover:text-red-500" data-index="${index}">
+            <i class="fas fa-times"></i>
+          </button>
+        `;
+        
+        cartItemsContainer.appendChild(cartItem);
+      });
+      
+      // Add event listeners to quantity buttons
+      document.querySelectorAll('.increase-quantity').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const index = e.target.dataset.index;
+          cart[index].quantity += 1;
+          updateCart();
+        });
+      });
+      
+      document.querySelectorAll('.decrease-quantity').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const index = e.target.dataset.index;
+          if (cart[index].quantity > 1) {
+            cart[index].quantity -= 1;
+          } else {
+            cart.splice(index, 1);
+          }
+          updateCart();
+        });
+      });
+      
+      document.querySelectorAll('.remove-item').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const index = e.target.closest('button').dataset.index;
+          cart.splice(index, 1);
+          updateCart();
+        });
+      });
+      
+      // Update totals
+      cartSubtotal.textContent = subtotal.toFixed(2) + ' MAD';
+      cartTotal.textContent = subtotal.toFixed(2) + ' MAD';
+    }
+
+    function updateCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+      updateCartItems();
+    }
+
+    function checkout() {
+      showSpinner();
+      // Simulate checkout process
+      setTimeout(() => {
+        hideSpinner();
+        alert('Checkout completed! Thank you for your purchase.');
+        cart = [];
+        updateCart();
+        toggleCart();
+      }, 2000);
+    }
+
+    function showAddedToCartNotification(productTitle) {
+      notificationMessage.textContent = `${productTitle} added to cart`;
+      addedToCartNotification.classList.remove('hidden');
+      addedToCartNotification.classList.add('animate-slide-in');
+      
+      setTimeout(() => {
+        addedToCartNotification.classList.remove('animate-slide-in');
+        addedToCartNotification.classList.add('hidden');
+      }, 3000);
+    }
+
+    // Utility Functions
+    function getColorName(color) {
+      const colors = {
+        'rgb(239, 68, 68)': 'red',
+        'rgb(59, 130, 246)': 'blue',
+        'rgb(0, 0, 0)': 'black',
+        'rgb(255, 255, 255)': 'white'
+      };
+      return colors[color] || color;
+    }
+
+    function toggleSortDropdown() {
+      sortDropdown.classList.toggle('open');
+    }
+
+    function sortProducts(sortType) {
+      if (!currentCategory) return;
+      
+      let sortedProducts = [...products[currentCategory]];
+      
+      switch(sortType) {
+        case 'price-low':
+          sortedProducts.sort((a, b) => parseFloat(a.price.replace('$', '')) - parseFloat(b.price.replace('$', '')));
+          break;
+        case 'price-high':
+          sortedProducts.sort((a, b) => parseFloat(b.price.replace('$', '')) - parseFloat(a.price.replace('$', '')));
+          break;
+        case 'name-asc':
+          sortedProducts.sort((a, b) => a.title.localeCompare(b.title));
+          break;
+        case 'name-desc':
+          sortedProducts.sort((a, b) => b.title.localeCompare(a.title));
+          break;
+      }
+      
+      // Update products display
+      productsContainer.innerHTML = '';
+      sortedProducts.forEach(product => {
+        const productElement = createProductCard(product);
+        productsContainer.appendChild(productElement);
+      });
+      
+      // Close dropdown
+      sortDropdown.classList.remove('open');
+    }
+
+    function toggleSearch() {
+      searchInput.classList.toggle('open');
+      if (searchInput.classList.contains('open')) {
+        searchInput.focus();
+      }
+    }
+
+    function searchProducts(query) {
+      if (!currentCategory || !query.trim()) return;
+      
+      const filteredProducts = products[currentCategory].filter(product =>
+        product.title.toLowerCase().includes(query.toLowerCase()) ||
+        product.description.toLowerCase().includes(query.toLowerCase())
+      );
+      
+      // Update products display
+      productsContainer.innerHTML = '';
+      
+      if (filteredProducts.length === 0) {
+        productsContainer.innerHTML = '<p class="col-span-full text-center py-12 text-gray-500">No products found matching your search</p>';
+      } else {
+        filteredProducts.forEach(product => {
+          const productElement = createProductCard(product);
+          productsContainer.appendChild(productElement);
+        });
+      }
+      
+      // Close search and clear input
+      searchInput.classList.remove('open');
+      searchInput.value = '';
+    }
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+      
+      if (document.documentElement.classList.contains('dark')) {
+        themeIcon.classList.replace('fa-moon', 'fa-sun');
+        localStorage.setItem('darkMode', 'true');
+      } else {
+        themeIcon.classList.replace('fa-sun', 'fa-moon');
+        localStorage.setItem('darkMode', 'false');
+      }
+    }
+
+    function toggleMobileMenu() {
+      mobileMenu.classList.toggle('hidden');
+    }
+
+    function showSpinner() {
+      spinner.classList.remove('hidden');
+    }
+
+    function hideSpinner() {
+      spinner.classList.add('hidden');
+    }
+
+    // Make functions available globally
+    window.showProducts = showProducts;
+  </script>
+</body>
+</html>
